@@ -4,14 +4,14 @@
 void main()
 {
     IntSingleList *list = createIntSingleList();
-    addIntValueToIntSingleList(list, 3);
-    addIntValueToIntSingleList(list, 3);
     addIntValueToIntSingleList(list, 1);
     addIntValueToIntSingleList(list, 1);
-    addIntValueToIntSingleList(list, 3);
-    addIntValueToIntSingleList(list, 5);
-    addIntValueToIntSingleList(list, 3);
-    addIntValueToIntSingleList(list, 4);
+    addIntValueToIntSingleList(list, 1);
+    addIntValueToIntSingleList(list, 2);
+    addIntValueToIntSingleList(list, 2);
+    addIntValueToIntSingleList(list, 6);
+    addIntValueToIntSingleList(list, 6);
+    addIntValueToIntSingleList(list, 6);
     addIntValueToIntSingleList(list, 5);
 
     printIntSingleList(list);
