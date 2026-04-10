@@ -1,0 +1,130 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "dk_tool.h"
+
+int get_positive_int_input(const char *prompt) {
+    int value;
+    printf("%s", prompt);
+
+    while (1) {
+        if (scanf("%d", &value) != 1) {
+            printf("Error! Enter an integer: ");
+            while (getchar() != '\n');
+            continue;}
+
+        if (value <= 0) {
+            printf("Error! The number must be greater than 0: ");
+            continue;}
+
+        while (getchar() != '\n');
+        return value;}
+}
+
+void addNode(Node **head, int value) {
+    Node *newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = value;
+    newNode->next = NULL;
+
+    if (*head == NULL) {
+        *head = newNode;
+        return;}
+
+    Node *last = *head;
+    while (last->next != NULL) {
+        last = last->next;}
+    last->next = newNode;
+}
+
+void printList(Node *head) {
+    Node *temp = head;
+    while (temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;}
+    printf("NULL\n");
+}
+
+void deleteFirstSmallerThanAverage(Node **head) {
+    if (*head == NULL) return;
+
+    int sum = 0;
+    int count = 0;
+    Node *temp = *head;
+    while (temp != NULL) {
+        sum += temp->data;
+        count++;
+        temp = temp->next;}
+    double average = (double)sum / count;
+    printf("Average: %.2f\n", average);
+
+    Node *curr = *head, *prev = NULL;
+    while (curr != NULL) {
+        if (curr->data < average) {
+            if (prev == NULL) {
+                *head = curr->next;
+            } else {
+                prev->next = curr->next;}
+            free(curr);
+            printf("Elemenet has been deleted.\n");
+            return;}
+        prev = curr;
+        curr = curr->next;}
+}
+
+void clearList(Node **head) {
+    Node *curr = *head;
+    Node *next;
+    while (curr != NULL) {
+        next = curr->next;
+        free(curr);
+        curr = next;}
+    *head = NULL;
+}
+
+
+
+
+
+
+#ifndef DK_TOOL_H
+#define DK_TOOL_H
+
+typedef struct Node {
+    int data;
+    struct Node *next;
+} Node;
+
+int get_positive_int_input(const char *prompt);
+
+void addNode(Node **head, int value);
+void printList(Node *head);
+void deleteFirstSmallerThanAverage(Node **head);
+void clearList(Node **head);
+
+#endif
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "dk_tool.h"
+
+int main(){
+    srand(time(NULL));
+    Node *head = NULL;
+    int listLength = get_positive_int_input("Enter number of elements: ");
+    for (int i = 0; i < listLength; i++) addNode(&head, rand() % 100);
+
+    printf("Starting list: ");
+    printList(head);
+
+    deleteFirstSmallerThanAverage(&head);
+
+    printf("Ending list: ");
+    printList(head);
+
+    clearList(&head);
+    return 0;
+}
+
