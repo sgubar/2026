@@ -11,9 +11,6 @@ float a_x = 25.0f, a_y = 45.0f;
 float zoom_param = -12.0f;
 float zoom_delta = 0.5f;
 
-bool moveScene = false;
-int mouse_x, mouse_y;
-
 void initGL() {
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClearDepth(1.0f);
@@ -96,29 +93,6 @@ void specKeyHandler(int sk, int x, int y) {
     glutPostRedisplay();
 }
 
-void mouseClick(int button, int state, int x, int y) {
-    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-        moveScene = true;
-        mouse_x = x;
-        mouse_y = y;
-    }
-    else if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
-        moveScene = false;
-    }
-}
-
-void mouseMove(int x, int y) {
-    if (moveScene) {
-        int dx = mouse_x - x;
-        int dy = mouse_y - y;
-        a_x -= 0.25f * dy;
-        a_y -= 0.25f * dx;
-        mouse_x = x;
-        mouse_y = y;
-        glutPostRedisplay();
-    }
-}
-
 int main(int argc, char* argv[]) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
@@ -131,8 +105,6 @@ int main(int argc, char* argv[]) {
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutSpecialFunc(specKeyHandler);
-    glutMouseFunc(mouseClick);
-    glutMotionFunc(mouseMove);
 
     glutMainLoop();
     return 0;
